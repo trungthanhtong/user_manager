@@ -54,10 +54,8 @@ class RegistrationForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         let { values } = this.state;
-        console.log('state', this.state);
         let errorsUpdate = {...this.state.errors}
         let valid = true;
-        console.log('value', values)
         for (let key in values) {
             if (values[key].toString().trim() === "") {
                 valid = false;
@@ -212,18 +210,7 @@ class RegistrationForm extends Component {
                                 this.setState(
                                     {
                                         values: { ...updatedValues },
-                                        // values: {
-                                        //     ...Object.assign(
-                                        //         this.state.values,
-                                        //         updatedValues
-                                        //     ),
-                                        // },
-                                        errors: {
-                                            ...Object.assign(
-                                                this.state.errors,
-                                                updatedErrors
-                                            ),
-                                        },
+                                        errors: {...updatedErrors},
                                     },
                                     () => {
                                         this.props.dispatch(

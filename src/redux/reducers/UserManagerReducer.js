@@ -28,12 +28,12 @@ export default (state = initialState, action) => {
 
         case update_user: {
             state.userEdit = {...action.user}
-            let userListUpdate = state.userList;
+            let userListUpdate = [...state.userList];
             let index = userListUpdate.findIndex(user => user.id === action.user.id);
             if (index !== -1) {
                 userListUpdate[index] = {...action.user}
             }
-            return {...state, userList: [...userListUpdate], disableButton: true}
+            return {...state, userEdit: {}, userList: [...userListUpdate], disableButton: true}
         }
 
     default:
