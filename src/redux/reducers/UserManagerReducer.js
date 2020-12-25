@@ -6,7 +6,8 @@ const initialState = {
         {id:'01', account: 'acc', name: 'name', password: 'pw', phone: '01', email: 'trungthanhtong@gmail.com', userType: 1},
         {id:'02', account: 'acc2', name: 'name2', password: 'pw2', phone: '02', email: '2@gmail.com', userType: 2}
     ],
-    userEdit: {}
+    userEdit: {},
+    disableButton: true,
 }
 
 export default (state = initialState, action) => {
@@ -22,17 +23,17 @@ export default (state = initialState, action) => {
         }
 
         case edit_user: {
-            return {...state, userEdit: action.user}
+            return {...state, userEdit: action.user, disableButton: false}
         }
 
         case update_user: {
             state.userEdit = {...action.user}
-            let userListUpdate = [...state.userList];
+            let userListUpdate = state.userList;
             let index = userListUpdate.findIndex(user => user.id === action.user.id);
             if (index !== -1) {
                 userListUpdate[index] = {...action.user}
             }
-            return {...state, userList: [...userListUpdate]}
+            return {...state, userList: [...userListUpdate], disableButton: true}
         }
 
     default:

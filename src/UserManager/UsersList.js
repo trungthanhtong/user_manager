@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { Head } from './Components/Head'
-import {connect} from 'react-redux'
-import { deleteUser, editUser } from '../redux/actions/UserManagerActions'
+import React, { Component } from "react";
+import { Head } from "./Components/Head";
+import { connect } from "react-redux";
+import { deleteUser, editUser } from "../redux/actions/UserManagerActions";
 
+const userType = ["Khách hàng", "Admin"];
 
 class UsersList extends Component {
-    userType = ['Khách hàng', 'Admin']
     render() {
         return (
             <div>
@@ -33,27 +33,43 @@ class UsersList extends Component {
                                     <td>{user.password}</td>
                                     <td>{user.email}</td>
                                     <td>{user.phone}</td>
-                                    <td>{this.userType[user.userType - 1]}</td>
+                                    <td>{userType[user.userType - 1]}</td>
                                     <td>
-                                        <button className="btn btn-primary me-1" onClick={() => {this.props.dispatch(editUser(user))}}>Chỉnh sửa</button>
-                                        <button className="btn btn-danger" onClick={() => {
-                                            this.props.dispatch(deleteUser(user.account))
-                                        }}>Xóa</button>
+                                        <button
+                                            className="btn btn-primary me-1"
+                                            onClick={() => {
+                                                this.props.dispatch(
+                                                    editUser(user)
+                                                );
+                                            }}
+                                        >
+                                            Chỉnh sửa
+                                        </button>
+                                        <button
+                                            className="btn btn-danger"
+                                            onClick={() => {
+                                                this.props.dispatch(
+                                                    deleteUser(user.account)
+                                                );
+                                            }}
+                                        >
+                                            Xóa
+                                        </button>
                                     </td>
                                 </tr>
-                            )
+                            );
                         })}
                     </tbody>
                 </table>
             </div>
-        )
+        );
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         userList: state.UserManagerReducer.userList,
-    }
-}
+    };
+};
 
-export default connect(mapStateToProps)(UsersList)
+export default connect(mapStateToProps)(UsersList);

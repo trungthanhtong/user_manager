@@ -13,7 +13,7 @@ class RegistrationForm extends Component {
             password: "",
             phone: "",
             email: "",
-            userType: 1
+            userType: 1,
         },
         errors: {
             account: "",
@@ -53,16 +53,21 @@ class RegistrationForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        let { values, errors: errorsUpdate } = this.state;
+        let { values } = this.state;
+        console.log('state', this.state);
+        let errorsUpdate = {...this.state.errors}
         let valid = true;
+        console.log('value', values)
         for (let key in values) {
-            if (values[key].trim() === "") {
+            if (values[key].toString().trim() === "") {
                 valid = false;
                 errorsUpdate[key] = key + " is valid";
+            } else {
+                errorsUpdate[key] = '';
             }
         }
         for (let key in errorsUpdate) {
-            if (errorsUpdate[key].trim() !== "") {
+            if (errorsUpdate[key].toString().trim() !== "") {
                 valid = false;
             }
         }
@@ -71,19 +76,33 @@ class RegistrationForm extends Component {
         );
         if (index !== -1) {
             valid = false;
+
             errorsUpdate["account"] = "account is already existed!";
+        } else {
+            errorsUpdate["account"] = '';
         }
         if (!valid) {
             this.setState({
-                errors: errorsUpdate,
+                errors: {...errorsUpdate},
             });
         } else {
             let newUser = {
                 id: Date.now(),
                 ...values,
-                userType: this.state.userType,
             };
-            this.props.dispatch(addUser(newUser));
+            let updatedValues = { ...this.state.values };
+            for (let key in updatedValues) {
+                updatedValues[key] = "";
+            }
+            this.setState(
+                {
+                    values: { ...updatedValues, userType: 1 },
+                    
+                },
+                () => {
+                    this.props.dispatch(addUser(newUser));
+                }
+            );
             return;
         }
     };
@@ -151,8 +170,11 @@ class RegistrationForm extends Component {
                             <Dropdown
                                 onChange={(e) => {
                                     this.setState({
-                                        values:{...this.state.values, userType: parseInt(e.target.value)},
-                                    }, () => {console.log(this.state)});
+                                        values: {
+                                            ...this.state.values,
+                                            userType: parseInt(e.target.value),
+                                        },
+                                    });
                                 }}
                                 label="Loại người dùng"
                                 value={this.state.values.userType}
@@ -165,40 +187,64 @@ class RegistrationForm extends Component {
                     <button className="ms-4 btn btn-success me-2">
                         Đăng ký
                     </button>
-                    <button
-                        className="btn btn-primary"
-                        type="button"
-                        onClick={() => {
-                            let { values } = this.state;
-                            let valuesUpdate = { ...this.state.values };
-                            for (let key in valuesUpdate) {
-                                valuesUpdate[key] = "";
-                            }
-                            console.log('value ', {...valuesUpdate})
-                            Object.assign(this.state.values, valuesUpdate);
-                            console.log('state values', this.state.values);
-                            this.setState(
-                                {
-                                    // values: {...values.updateUser}
-                                    // values: {...Object.assign(this.state.values, valuesUpdate)},
-                                },
-                                () => {
-                                    this.props.dispatch(updateUser(values));
+                    {this.props.disabled ? (
+                        <button
+                            disabled
+                            className="btn btn-primary"
+                            type="button"
+                        >
+                            Cập nhật
+                        </button>
+                    ) : (
+                        <button
+                            className="btn btn-primary"
+                            type="button"
+                            onClick={() => {
+                                let currentValues = { ...this.state.values };
+                                let updatedValues = { ...this.state.values };
+                                let updatedErrors = { ...this.state.errors };
+                                for (let key in updatedValues) {
+                                    updatedValues[key] = "";
                                 }
-                            );
-                        }}
-                    >
-                        Cập nhật
-                    </button>
+                                for (let key in updatedErrors) {
+                                    updatedErrors[key] = "";
+                                }
+                                this.setState(
+                                    {
+                                        values: { ...updatedValues },
+                                        // values: {
+                                        //     ...Object.assign(
+                                        //         this.state.values,
+                                        //         updatedValues
+                                        //     ),
+                                        // },
+                                        errors: {
+                                            ...Object.assign(
+                                                this.state.errors,
+                                                updatedErrors
+                                            ),
+                                        },
+                                    },
+                                    () => {
+                                        this.props.dispatch(
+                                            updateUser(currentValues)
+                                        );
+                                    }
+                                );
+                            }}
+                        >
+                            Cập nhật
+                        </button>
+                    )}
                 </form>
             </div>
         );
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.props.userEdit.id !== this.state.values.id) {
+        if (this.props.userEdit.id !== prevProps.userEdit.id) {
             this.setState({
-                values: this.props.userEdit,
+                values: { ...this.props.userEdit },
             });
         }
     }
@@ -208,6 +254,7 @@ const mapStateToProps = (state) => {
     return {
         userList: state.UserManagerReducer.userList,
         userEdit: state.UserManagerReducer.userEdit,
+        disabled: state.UserManagerReducer.disableButton,
     };
 };
 
