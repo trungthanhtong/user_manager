@@ -112,13 +112,13 @@ class RegistrationForm extends Component {
                     onSubmit={this.handleSubmit}
                     style={{ border: "1px solid black", paddingBottom: "20px" }}
                 >
-                    <Head>Form đăng ký</Head>
+                    <Head>Registration Form</Head>
                     <div className="row">
                         <div className="col-6 px-5 mb-3">
                             <TextField
                                 onChange={this.handleChangeValue}
                                 name="account"
-                                label="Tải Khoản *"
+                                label="Username *"
                                 error={this.state.errors.account}
                                 type="text"
                                 value={this.state.values.account}
@@ -128,7 +128,7 @@ class RegistrationForm extends Component {
                             <TextField
                                 onChange={this.handleChangeValue}
                                 name="name"
-                                label="Họ tên *"
+                                label="Full name *"
                                 error={this.state.errors.name}
                                 type="text"
                                 value={this.state.values.name}
@@ -138,7 +138,7 @@ class RegistrationForm extends Component {
                             <TextField
                                 onChange={this.handleChangeValue}
                                 name="password"
-                                label="Mật khẩu *"
+                                label="Password *"
                                 error={this.state.errors.password}
                                 type="password"
                                 value={this.state.values.password}
@@ -148,7 +148,7 @@ class RegistrationForm extends Component {
                             <TextField
                                 onChange={this.handleChangeValue}
                                 name="phone"
-                                label="Số điện thoại *"
+                                label="Phone *"
                                 error={this.state.errors.phone}
                                 type="tel"
                                 value={this.state.values.phone}
@@ -174,16 +174,16 @@ class RegistrationForm extends Component {
                                         },
                                     });
                                 }}
-                                label="Loại người dùng"
+                                label="User type"
                                 value={this.state.values.userType}
                             >
-                                <option value="1">Khách hàng</option>
+                                <option value="1">Customer</option>
                                 <option value="2">Admin</option>
                             </Dropdown>
                         </div>
                     </div>
                     <button className="ms-4 btn btn-success me-2">
-                        Đăng ký
+                        Register
                     </button>
                     {this.props.disabled ? (
                         <button
@@ -191,7 +191,7 @@ class RegistrationForm extends Component {
                             className="btn btn-primary"
                             type="button"
                         >
-                            Cập nhật
+                            Update
                         </button>
                     ) : (
                         <button
@@ -220,7 +220,7 @@ class RegistrationForm extends Component {
                                 );
                             }}
                         >
-                            Cập nhật
+                            Update
                         </button>
                     )}
                 </form>

@@ -9,17 +9,17 @@ class UsersList extends Component {
     render() {
         return (
             <div>
-                <Head>Danh sách người dùng</Head>
+                <Head>User List</Head>
                 <table className="table">
                     <thead>
                         <tr>
-                            <th>STT</th>
-                            <th>Tài khoản</th>
-                            <th>Họ tên</th>
-                            <th>Mật khẩu</th>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Full name</th>
+                            <th>Password</th>
                             <th>Email</th>
-                            <th>Số điện thoại</th>
-                            <th>Loại người dùng</th>
+                            <th>Phone</th>
+                            <th>User type</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -43,7 +43,7 @@ class UsersList extends Component {
                                                 );
                                             }}
                                         >
-                                            Chỉnh sửa
+                                            Edit
                                         </button>
                                         <button
                                             className="btn btn-danger"
@@ -53,7 +53,7 @@ class UsersList extends Component {
                                                 );
                                             }}
                                         >
-                                            Xóa
+                                            Remove
                                         </button>
                                     </td>
                                 </tr>
